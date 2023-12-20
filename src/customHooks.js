@@ -1,4 +1,4 @@
-import { modifiedUserData } from "./utils.js";
+import { formatDateForLineChart, modifiedUserData } from "./utils.js";
 import { useState } from "react";
 
 const useFIlter = () => {
@@ -71,7 +71,12 @@ const useFIlter = () => {
       }
     });
 
-  const filterDataOnBarClick = filteredData.filter((item) => {
+  const modifiedDateUserData = filteredData.map((item) => ({
+    ...item,
+    date: formatDateForLineChart(item.date),
+  }));
+
+  const filterDataOnBarClick = modifiedDateUserData.filter((item) => {
     if (barName === "All") {
       return true;
     } else {

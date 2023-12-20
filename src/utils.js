@@ -10,8 +10,8 @@ export const getAgeFilter = (selectedAge) => {
   return { firstElement, secondElement };
 };
 
-export const formatDate = (date) => {
-  const splitValues = date.split("/");
+export const formatDateForBar = (dateString) => {
+  const splitValues = dateString.split("/");
   const day = splitValues[0];
   const month = splitValues[1];
   const year = splitValues[2];
@@ -20,8 +20,19 @@ export const formatDate = (date) => {
   return newDate;
 };
 
+export const formatDateForLineChart = (dateString) => {
+  const convertedDate = new Date(dateString);
+  const monthName = convertedDate.toLocaleString("default", { month: "short" });
+  const date = convertedDate.getDate();
+
+  const formattedDate = `${date}-${monthName}`;
+  return formattedDate;
+};
+
+console.log(formatDateForLineChart("11/10/2022"));
+
 export const modifiedUserData = data.map((item) => ({
   ...item,
   workTime: Math.round(item.workTime / 60),
-  date: formatDate(item.date),
+  date: formatDateForBar(item.date),
 }));
