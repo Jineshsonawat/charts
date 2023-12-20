@@ -1,7 +1,7 @@
 import { modifiedUserData } from "./utils.js";
 import { useState } from "react";
 
-const useFilter = () => {
+const useFIlter = () => {
   const [selectedGender, setSelectedGender] = useState("All");
   const [selectedAge, setSelectedAge] = useState("All");
   const [startDate, setStartDate] = useState("All");
@@ -104,4 +104,4 @@ const useFilter = () => {
   };
 };
 
-export { useFilter };
+export { useFIlter };

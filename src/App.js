@@ -1,5 +1,5 @@
 import "./App.css";
-import { useFilter } from "./customHooks";
+import { useFIlter } from "./customHooks";
 import {
   ResponsiveContainer,
   LineChart,
@@ -23,7 +23,7 @@ function App() {
     getEndDate,
     convertFilteredData,
     filteredData,
-  } = useFilter();
+  } = useFIlter();
 
   return (
     <div>
