@@ -6,6 +6,7 @@ const useFIlter = () => {
   const [selectedAge, setSelectedAge] = useState("All");
   const [startDate, setStartDate] = useState("All");
   const [endDate, setEndDate] = useState("All");
+  const [barName, setBarName] = useState("All");
 
   function getAgeData(event) {
     setSelectedAge(event.target.value);
@@ -28,6 +29,10 @@ const useFIlter = () => {
       setEndDate(event.target.value);
     }
   }
+
+  const onBarClick = (arg) => {
+    setBarName(arg.name);
+  };
 
   const filteredData = modifiedUserData
     .filter((item) => {
@@ -66,6 +71,14 @@ const useFIlter = () => {
       }
     });
 
+  const filterDataOnBarClick = filteredData.filter((item) => {
+    if (barName === "All") {
+      return true;
+    } else {
+      return item.name === barName;
+    }
+  });
+
   const reducedData = filteredData.reduce((acc, curr) => {
     if (acc[curr.name]) {
       acc[curr.name].workTime += curr.workTime;
@@ -101,6 +114,8 @@ const useFIlter = () => {
     getEndDate,
     convertFilteredData,
     filteredData,
+    filterDataOnBarClick,
+    onBarClick,
   };
 };
 

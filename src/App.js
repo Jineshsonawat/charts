@@ -12,17 +12,14 @@ import {
 } from "recharts";
 
 function App() {
-  const onBarClick = (arg) => {
-    console.log(arg);
-  };
-
   const {
     getAgeData,
     getGenderData,
     getStartDate,
     getEndDate,
     convertFilteredData,
-    filteredData,
+    filterDataOnBarClick,
+    onBarClick,
   } = useFIlter();
 
   return (
@@ -68,8 +65,8 @@ function App() {
         </section>
         <section>
           <h1>Line Charts</h1>
-          <ResponsiveContainer width={600} aspect={3}>
-            <LineChart data={filteredData}>
+          <ResponsiveContainer width="90%" aspect={3}>
+            <LineChart data={filterDataOnBarClick}>
               <Line dataKey="workTime" />
               <Tooltip />
               <XAxis dataKey="date" type="category" />
