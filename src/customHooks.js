@@ -1,12 +1,29 @@
-import { formatDateForLineChart, modifiedUserData } from "./utils.js";
-import { useState } from "react";
+import { formatDateForLineChart, formatDateForBar } from "./utils.js";
+import { useEffect, useState } from "react";
+// import data from "./Output";
 
+import axios from "axios";
 const useFIlter = () => {
   const [selectedGender, setSelectedGender] = useState("All");
   const [selectedAge, setSelectedAge] = useState("All");
   const [startDate, setStartDate] = useState("All");
   const [endDate, setEndDate] = useState("All");
   const [barName, setBarName] = useState("All");
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          "https://livequiz.lokeshjain318.repl.co/userData"
+        );
+        setData(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
 
   function getAgeData(event) {
     setSelectedAge(event.target.value);
@@ -33,6 +50,12 @@ const useFIlter = () => {
   const onBarClick = (arg) => {
     setBarName(arg.name);
   };
+
+  const modifiedUserData = data.map((item) => ({
+    ...item,
+    workTime: Math.round(item.workTime / 60),
+    date: formatDateForBar(item.date),
+  }));
 
   const filteredData = modifiedUserData
     .filter((item) => {
@@ -103,6 +126,7 @@ const useFIlter = () => {
     .sort((a, b) => {
       const nameA = a.name.toUpperCase();
       const nameB = b.name.toUpperCase();
+
       if (nameA < nameB) {
         return 1;
       }

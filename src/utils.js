@@ -1,5 +1,3 @@
-import data from "./Output";
-
 export const getAgeFilter = (selectedAge) => {
   const splitValues = selectedAge.split("-");
   const firstElement = splitValues[0];
@@ -28,11 +26,3 @@ export const formatDateForLineChart = (dateString) => {
   const formattedDate = `${date}-${monthName}`;
   return formattedDate;
 };
-
-console.log(formatDateForLineChart("11/10/2022"));
-
-export const modifiedUserData = data.map((item) => ({
-  ...item,
-  workTime: Math.round(item.workTime / 60),
-  date: formatDateForBar(item.date),
-}));
