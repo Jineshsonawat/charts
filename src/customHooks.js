@@ -9,7 +9,8 @@ const useFIlter = () => {
   const [startDate, setStartDate] = useState("All");
   const [endDate, setEndDate] = useState("All");
   const [barName, setBarName] = useState("All");
-  const [modifiedUserData, setData] = useState([]);
+  const [data, setData] = useState([]);
+  const [loader, showLoader] = useState("Loading");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,15 +18,10 @@ const useFIlter = () => {
         const res = await axios.get(
           "https://livequiz.lokeshjain318.repl.co/userData"
         );
-        setData(
-          res.data.map((item) => ({
-            ...item,
-            workTime: Math.round(item.workTime / 60),
-            date: formatDateForBar(item.date),
-          }))
-        );
+        showLoader("Success");
+        setData(res.data);
       } catch (error) {
-        console.log(error);
+        showLoader("Error");
       }
     };
     fetchData();
@@ -57,6 +53,11 @@ const useFIlter = () => {
     setBarName(arg.name);
   };
 
+  const modifiedUserData = data.map((item) => ({
+    ...item,
+    workTime: Math.round(item.workTime / 60),
+    date: formatDateForBar(item.date),
+  }));
   const filteredData = useMemo(
     () =>
       modifiedUserData
@@ -97,8 +98,6 @@ const useFIlter = () => {
         }),
     [endDate, startDate, selectedGender, selectedAge, modifiedUserData]
   );
-
-  console.log("filteredData", filteredData);
 
   const modifiedDateUserData = useMemo(
     () =>
@@ -167,6 +166,7 @@ const useFIlter = () => {
     filteredData,
     filterDataOnBarClick,
     onBarClick,
+    loader,
   };
 };
 

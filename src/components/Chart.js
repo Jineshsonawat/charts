@@ -19,7 +19,53 @@ function Chart() {
     getGenderData,
     getStartDate,
     getEndDate,
+    loader,
   } = useFIlter();
+
+  function showPageStateView() {
+    switch (loader) {
+      case "Loading":
+        return <h1 className="text-center">Loading! Please Wait.</h1>;
+      case "Success":
+        return (
+          <>
+            <div className="text-center">
+              <section>
+                <h1>Bar Charts</h1>
+                <ResponsiveContainer width={600} aspect={3}>
+                  <BarChart data={convertFilteredData} layout="vertical">
+                    <YAxis dataKey="name" type="category" />
+                    <Tooltip />
+                    <XAxis type="number" dataKey="workTime" />
+                    <Bar dataKey="workTime" onClick={onBarClick} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </section>
+              <section>
+                <h1>Line Charts</h1>
+                <ResponsiveContainer width="90%" aspect={3}>
+                  <LineChart data={filterDataOnBarClick}>
+                    <Line dataKey="workTime" />
+                    <Tooltip />
+                    <XAxis dataKey="date" type="category" />
+                    <YAxis />
+                  </LineChart>
+                </ResponsiveContainer>
+              </section>
+            </div>
+          </>
+        );
+      case "Error":
+        return (
+          <h3 className="text-center">
+            Something went Wrong! Please try again or Contact Support.
+          </h3>
+        );
+
+      default:
+        break;
+    }
+  }
 
   return (
     <>
@@ -50,30 +96,7 @@ function Chart() {
           </label>
         </fieldset>
       </div>
-      <div className="chart">
-        <section>
-          <h1>Bar Charts</h1>
-          <ResponsiveContainer width={600} aspect={3}>
-            <BarChart data={convertFilteredData} layout="vertical">
-              <YAxis dataKey="name" type="category" />
-              <Tooltip />
-              <XAxis type="number" dataKey="workTime" />
-              <Bar dataKey="workTime" onClick={onBarClick} />
-            </BarChart>
-          </ResponsiveContainer>
-        </section>
-        <section>
-          <h1>Line Charts</h1>
-          <ResponsiveContainer width="90%" aspect={3}>
-            <LineChart data={filterDataOnBarClick}>
-              <Line dataKey="workTime" />
-              <Tooltip />
-              <XAxis dataKey="date" type="category" />
-              <YAxis />
-            </LineChart>
-          </ResponsiveContainer>
-        </section>
-      </div>
+      {showPageStateView()}
     </>
   );
 }
